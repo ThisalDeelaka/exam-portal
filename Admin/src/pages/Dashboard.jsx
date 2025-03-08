@@ -200,7 +200,7 @@ const Dashboard = () => {
               </Link>
               
               {/* Leaderboard Panel */}
-              <Link to="/leaderboard" className="group">
+              <Link to="/dashboard" className="group">
                 <div className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-all duration-200 border border-gray-100 h-full">
                   <div className="flex items-start mb-4">
                     <div className="bg-amber-100 p-3 rounded-lg">
@@ -228,55 +228,8 @@ const Dashboard = () => {
           </div>
         </section>
         
-        {/* Recent Activity Section */}
-        <section className="px-6 mb-8">
-          <div className="max-w-5xl mx-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-800">Recent Activity</h2>
-              <Link to="/activity" className="text-primary hover:underline text-sm font-medium">
-                View All
-              </Link>
-            </div>
-            
-            <div className="bg-white shadow-md rounded-lg border border-gray-100">
-              <div className="p-4 border-b border-gray-100">
-                <div className="flex items-center">
-                  <div className="bg-green-100 p-2 rounded-full">
-                    <FaUserGraduate className="text-green-600" />
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-gray-800">New exam scores added for <span className="font-medium">Physics 101</span></p>
-                    <p className="text-gray-500 text-sm">Today, 09:41 AM</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-4 border-b border-gray-100">
-                <div className="flex items-center">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <FaBook className="text-blue-600" />
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-gray-800">Created a new exam <span className="font-medium">Mathematics Final</span></p>
-                    <p className="text-gray-500 text-sm">Yesterday, 03:15 PM</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-4">
-                <div className="flex items-center">
-                  <div className="bg-purple-100 p-2 rounded-full">
-                    <FaTrophy className="text-purple-600" />
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-gray-800">Leaderboard updated for <span className="font-medium">Chemistry 202</span></p>
-                    <p className="text-gray-500 text-sm">Feb 24, 2025, 11:30 AM</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        
+       
       </div>
       
       {/* Exam Creation Modal */}
@@ -324,7 +277,9 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+      
     </div>
+    
   );
 };
 

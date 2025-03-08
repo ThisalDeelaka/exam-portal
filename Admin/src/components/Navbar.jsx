@@ -6,8 +6,6 @@ import {
   FaTimes, 
   FaHome, 
   FaBook, 
-  FaClipboardList, 
-  FaTrophy, 
   FaUser, 
   FaSignOutAlt,
   FaBell
@@ -84,42 +82,6 @@ const Navbar = () => {
                 <FaHome className="mr-1.5" /> Dashboard
               </Link>
             </li>
-            <li>
-              <Link
-                to="/create-exam"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center ${
-                  isActive('/create-exam') 
-                    ? 'bg-primary bg-opacity-20 text-white' 
-                    : 'text-gray-300 hover:bg-primary hover:bg-opacity-10 hover:text-white'
-                }`}
-              >
-                <FaBook className="mr-1.5" /> Create Exam
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/add-marks"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center ${
-                  isActive('/add-marks') 
-                    ? 'bg-primary bg-opacity-20 text-white' 
-                    : 'text-gray-300 hover:bg-primary hover:bg-opacity-10 hover:text-white'
-                }`}
-              >
-                <FaClipboardList className="mr-1.5" /> Add Marks
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/leaderboard"
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center ${
-                  isActive('/leaderboard') 
-                    ? 'bg-primary bg-opacity-20 text-white' 
-                    : 'text-gray-300 hover:bg-primary hover:bg-opacity-10 hover:text-white'
-                }`}
-              >
-                <FaTrophy className="mr-1.5" /> Leaderboard
-              </Link>
-            </li>
             <li className="ml-1">
               <button className="relative p-2 text-gray-300 hover:text-white transition-colors duration-200">
                 <FaBell />
@@ -180,42 +142,6 @@ const Navbar = () => {
           >
             <div className="flex items-center">
               <FaHome className="mr-3" /> Dashboard
-            </div>
-          </Link>
-          <Link
-            to="/create-exam"
-            className={`block px-3 py-3 rounded-md text-base font-medium transition-colors duration-200 ${
-              isActive('/create-exam') 
-                ? 'bg-primary bg-opacity-20 text-white' 
-                : 'text-gray-300 hover:bg-primary hover:bg-opacity-10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center">
-              <FaBook className="mr-3" /> Create Exam
-            </div>
-          </Link>
-          <Link
-            to="/add-marks"
-            className={`block px-3 py-3 rounded-md text-base font-medium transition-colors duration-200 ${
-              isActive('/add-marks') 
-                ? 'bg-primary bg-opacity-20 text-white' 
-                : 'text-gray-300 hover:bg-primary hover:bg-opacity-10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center">
-              <FaClipboardList className="mr-3" /> Add Marks
-            </div>
-          </Link>
-          <Link
-            to="/leaderboard"
-            className={`block px-3 py-3 rounded-md text-base font-medium transition-colors duration-200 ${
-              isActive('/leaderboard') 
-                ? 'bg-primary bg-opacity-20 text-white' 
-                : 'text-gray-300 hover:bg-primary hover:bg-opacity-10 hover:text-white'
-            }`}
-          >
-            <div className="flex items-center">
-              <FaTrophy className="mr-3" /> Leaderboard
             </div>
           </Link>
           

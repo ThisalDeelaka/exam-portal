@@ -205,8 +205,8 @@ exports.getStudentLeaderboard = async (req, res) => {
         const student = await Student.findOne({ studentID: req.user.studentID });
         if (!student) return res.status(404).json({ message: "Student not found" });
 
-        const exam = await Exam.findOne({ examID });
-        if (!exam) return res.status(404).json({ message: "Exam not found" });
+        const exam = await Exam.findById(examID);
+if (!exam) return res.status(404).json({ message: "Exam not found" });
 
         // Get all marks for this exam sorted in descending order
         const allLeaderboard = await Marks.find({ examID: exam._id })
