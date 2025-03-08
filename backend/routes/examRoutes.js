@@ -1,11 +1,16 @@
-const express = require('express');
-const { createExam, getExams, getExamById, deleteExam } = require('../controllers/examController');
-const { protect, admin } = require('../middleware/authMiddleware');
+const express = require("express");
+const { createExam, addMarks, getLeaderboard, getStudentMarks, getAllExams, addBulkMarks } = require("../controllers/examController");
+const authenticate = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-router.post('/', protect, admin, createExam); // Admin can create exam
-router.get('/', protect, getExams); // Students & Admin can view exams
-router.get('/:id', protect, getExamById); // Get a specific exam
-router.delete('/:id', protect, admin, deleteExam); // Admin can delete an exam
+router.post("/create", authenticate, createExam); // Only admins
+router.post("/add-marks", authenticate, addMarks); // Only admins
+router.get("/:examID/leaderboard", authenticate, getLeaderboard); // Admins and students can view leaderboard
+router.get("/:examID/my-marks", authenticate, getStudentMarks); // Only authenticated students can view their own marks
+router.get("/all", authenticate, getAllExams);
+router.post("/add-marks-bulk", authenticate, addBulkMarks);
+
+
 
 module.exports = router;

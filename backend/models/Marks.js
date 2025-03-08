@@ -1,11 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const MarksSchema = new mongoose.Schema({
-  studentId: { type: String, required: true },
-  examId: { type: mongoose.Schema.Types.ObjectId, ref: 'Exam', required: true },
-  paper1: { type: Number, default: 0 },
-  paper2: { type: Number, default: 0 },
-  total: { type: Number, default: 0 }
-}, { timestamps: true });
+const marksSchema = new mongoose.Schema({
+    examID: { type: mongoose.Schema.Types.ObjectId, ref: "Exam", required: true },
+    studentID: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true },
+    paper1Marks: { type: Number, required: true },
+    paper2Marks: { type: Number, required: true },
+    totalMarks: { type: Number, required: true },
+});
 
-module.exports = mongoose.model('Marks', MarksSchema);
+// Auto-calculate total marks
+marksSchema.pre("save", function (next) {
+    this.totalMarks = this.paper1Marks + this.paper2Marks;
+    next();
+});
+
+module.exports = mongoose.model("Marks", marksSchema);
