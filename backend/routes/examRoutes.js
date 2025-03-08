@@ -6,7 +6,8 @@ const {
     getStudentMarks,
     getAllExams,
     addBulkMarks,
-    getStudentAllMarks
+    getStudentAllMarks,
+    getStudentLeaderboard,
 } = require("../controllers/examController");
 
 const authenticate = require("../middleware/authMiddleware");
@@ -22,8 +23,11 @@ router.post("/add-marks-bulk", authenticate, addBulkMarks); // Bulk add marks
 
 router.get("/all", authenticate, getAllExams); // Get all exams
 
-// Dynamic Routes (Must be placed last)
-router.get("/:examID/leaderboard", authenticate, getLeaderboard); // Get leaderboard for a specific exam
+// ✅ Place the student leaderboard route **before** the general leaderboard
+router.get("/:examID/student-leaderboard", authenticate, getStudentLeaderboard);
+
+// ✅ Admin route (place after student routes to prevent conflicts)
+router.get("/:examID/leaderboard", authenticate, getLeaderboard); // Admin-only leaderboard
 router.get("/:examID/my-marks", authenticate, getStudentMarks); // Get a student's marks for a specific exam
 
 module.exports = router;

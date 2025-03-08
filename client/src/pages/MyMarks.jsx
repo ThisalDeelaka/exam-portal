@@ -3,6 +3,9 @@ import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import { ChevronDown, Filter, Download, Clock, Award, BarChart2, TrendingUp, Calendar } from "lucide-react";
+import ExamProgressChart from "../components/ExamProgressChart";
+import { Link } from "react-router-dom"; 
+
 
 const MyMarks = () => {
   const { student } = useContext(AuthContext);
@@ -188,7 +191,10 @@ const MyMarks = () => {
               <div className="text-xs text-gray-500">Exams completed</div>
             </div>
           </div>
-          
+          {/* Performance Trend Chart */}
+<div className="mb-6">
+  <ExamProgressChart marks={marks} />
+</div>
           {/* Main content area */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
             {/* Toolbar */}
@@ -293,100 +299,136 @@ const MyMarks = () => {
             ) : viewMode === 'table' ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-gray-50 text-left">
-                      <th className="px-6 py-3 font-medium text-gray-500">Exam</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">Paper I</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">Paper II</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">Total</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">Grade</th>
-                      <th className="px-4 py-3 font-medium text-gray-500">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {marks.map((exam) => {
-                      const scorePercentage = exam.totalMarks;
-                      let statusColor, statusBg, statusText;
-                      
-                      if (scorePercentage >= 80) {
-                        statusColor = 'bg-green-500';
-                        statusBg = 'bg-green-50';
-                        statusText = 'text-green-600';
-                      } else if (scorePercentage >= 60) {
-                        statusColor = primaryColor;
-                        statusBg = `${primaryColor}10`;
-                        statusText = primaryColor;
-                      } else if (scorePercentage >= 40) {
-                        statusColor = secondaryColor;
-                        statusBg = `${secondaryColor}10`;
-                        statusText = secondaryColor;
-                      } else {
-                        statusColor = 'bg-red-500';
-                        statusBg = 'bg-red-50';
-                        statusText = 'text-red-600';
-                      }
-                      
-                      return (
-                        <tr key={exam.examID} className="hover:bg-gray-50/50 transition-colors">
-                          <td className="px-6 py-4">
-                            <div className="font-medium">{exam.examName}</div>
-                            <div className="text-xs text-gray-500 mt-0.5">{exam.date}</div>
-                          </td>
-                          <td className="px-4 py-4">{exam.paper1Marks}</td>
-                          <td className="px-4 py-4">{exam.paper2Marks}</td>
-                          <td className="px-4 py-4">
-                            <div className="font-medium">{exam.totalMarks}</div>
-                            <div className="w-24 bg-gray-200 rounded-full h-1.5 mt-1.5">
-                              <div 
-                                className="h-1.5 rounded-full" 
-                                style={{ 
-                                  width: `${scorePercentage}%`,
-                                  backgroundColor: typeof statusColor === 'string' && statusColor.startsWith('bg-') 
-                                    ? undefined 
-                                    : statusColor,
-                                  className: typeof statusColor === 'string' && statusColor.startsWith('bg-') 
-                                    ? statusColor 
-                                    : undefined
-                                }}
-                              ></div>
-                            </div>
-                          </td>
-                          <td className="px-4 py-4">
-                            <span 
-                              className="inline-flex items-center justify-center w-8 h-8 rounded-full font-medium"
-                              style={{ 
-                                backgroundColor: typeof statusBg === 'string' && statusBg.startsWith('bg-') 
-                                  ? undefined 
-                                  : statusBg,
-                                color: typeof statusText === 'string' && statusText.startsWith('text-') 
-                                  ? undefined 
-                                  : statusText,
-                                className: `${typeof statusBg === 'string' && statusBg.startsWith('bg-') ? statusBg : ''} ${typeof statusText === 'string' && statusText.startsWith('text-') ? statusText : ''}`
-                              }}
-                            >
-                              {exam.grade}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4">
-                            <span 
-                              className="inline-block px-2 py-1 rounded-full text-xs font-medium"
-                              style={{ 
-                                backgroundColor: typeof statusBg === 'string' && statusBg.startsWith('bg-') 
-                                  ? undefined 
-                                  : statusBg,
-                                color: typeof statusText === 'string' && statusText.startsWith('text-') 
-                                  ? undefined 
-                                  : statusText,
-                                className: `${typeof statusBg === 'string' && statusBg.startsWith('bg-') ? statusBg : ''} ${typeof statusText === 'string' && statusText.startsWith('text-') ? statusText : ''}`
-                              }}
-                            >
-                              {scorePercentage >= 60 ? "Passed" : "Failed"}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
+                <thead>
+  <tr className="bg-gray-50 text-left">
+    <th className="px-6 py-3 font-medium text-gray-500">Exam</th>
+    <th className="px-4 py-3 font-medium text-gray-500">Paper I</th>
+    <th className="px-4 py-3 font-medium text-gray-500">Paper II</th>
+    <th className="px-4 py-3 font-medium text-gray-500">Total</th>
+    <th className="px-4 py-3 font-medium text-gray-500">Grade</th>
+    <th className="px-4 py-3 font-medium text-gray-500">Status</th>
+    <th className="px-4 py-3 font-medium text-gray-500 text-center">Leaderboard</th> 
+  </tr>
+</thead>
+
+<tbody className="divide-y divide-gray-100">
+  {marks.map((exam) => {
+    const scorePercentage = exam.totalMarks;
+    let statusColor, statusBg, statusText;
+
+    if (scorePercentage >= 80) {
+      statusColor = "bg-green-500";
+      statusBg = "bg-green-50";
+      statusText = "text-green-600";
+    } else if (scorePercentage >= 60) {
+      statusColor = primaryColor;
+      statusBg = `${primaryColor}10`;
+      statusText = primaryColor;
+    } else if (scorePercentage >= 40) {
+      statusColor = secondaryColor;
+      statusBg = `${secondaryColor}10`;
+      statusText = secondaryColor;
+    } else {
+      statusColor = "bg-red-500";
+      statusBg = "bg-red-50";
+      statusText = "text-red-600";
+    }
+
+    return (
+      <tr key={exam.examID} className="hover:bg-gray-50/50 transition-colors">
+        <td className="px-6 py-4">
+          <div className="font-medium">{exam.examName}</div>
+          <div className="text-xs text-gray-500 mt-0.5">{exam.date}</div>
+        </td>
+        <td className="px-4 py-4">{exam.paper1Marks}</td>
+        <td className="px-4 py-4">{exam.paper2Marks}</td>
+        <td className="px-4 py-4">
+          <div className="font-medium">{exam.totalMarks}</div>
+          <div className="w-24 bg-gray-200 rounded-full h-1.5 mt-1.5">
+            <div
+              className="h-1.5 rounded-full"
+              style={{
+                width: `${scorePercentage}%`,
+                backgroundColor:
+                  typeof statusColor === "string" &&
+                  statusColor.startsWith("bg-")
+                    ? undefined
+                    : statusColor,
+                className:
+                  typeof statusColor === "string" &&
+                  statusColor.startsWith("bg-")
+                    ? statusColor
+                    : undefined,
+              }}
+            ></div>
+          </div>
+        </td>
+        <td className="px-4 py-4">
+          <span
+            className="inline-flex items-center justify-center w-8 h-8 rounded-full font-medium"
+            style={{
+              backgroundColor:
+                typeof statusBg === "string" && statusBg.startsWith("bg-")
+                  ? undefined
+                  : statusBg,
+              color:
+                typeof statusText === "string" && statusText.startsWith("text-")
+                  ? undefined
+                  : statusText,
+              className: `${
+                typeof statusBg === "string" && statusBg.startsWith("bg-")
+                  ? statusBg
+                  : ""
+              } ${
+                typeof statusText === "string" && statusText.startsWith("text-")
+                  ? statusText
+                  : ""
+              }`,
+            }}
+          >
+            {exam.grade}
+          </span>
+        </td>
+        <td className="px-4 py-4">
+          <span
+            className="inline-block px-2 py-1 rounded-full text-xs font-medium"
+            style={{
+              backgroundColor:
+                typeof statusBg === "string" && statusBg.startsWith("bg-")
+                  ? undefined
+                  : statusBg,
+              color:
+                typeof statusText === "string" && statusText.startsWith("text-")
+                  ? undefined
+                  : statusText,
+              className: `${
+                typeof statusBg === "string" && statusBg.startsWith("bg-")
+                  ? statusBg
+                  : ""
+              } ${
+                typeof statusText === "string" && statusText.startsWith("text-")
+                  ? statusText
+                  : ""
+              }`,
+            }}
+          >
+            {scorePercentage >= 60 ? "Passed" : "Failed"}
+          </span>
+        </td>
+        {/* ✅ New Column: View Leaderboard Button */}
+        <td className="px-4 py-4 text-center">
+          <Link
+            to={`/leaderboard/${exam.examID}`} // ✅ Navigates to Leaderboard
+            className="bg-primary bg-opacity-10 text-primary text-center py-2 rounded-md font-medium text-sm transition-colors hover:bg-opacity-20 flex items-center justify-center"
+          >
+            Leaderboard
+          </Link>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
                 </table>
               </div>
             ) : (

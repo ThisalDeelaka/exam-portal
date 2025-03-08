@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import MyMarks from "./pages/MyMarks";
-import Leaderboard from "./pages/Leaderboard";
+import StudentLeaderboard from "./pages/StudentLeaderboard"; 
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-marks" element={<MyMarks />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/leaderboard/:examID" element={<StudentLeaderboard />} />
         </Routes>
       </Router>
     </AuthProvider>

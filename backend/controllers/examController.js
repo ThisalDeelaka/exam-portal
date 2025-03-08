@@ -192,3 +192,49 @@ exports.getStudentAllMarks = async (req, res) => {
         res.status(500).json({ message: "Server Error", error });
     }
 };
+
+exports.getStudentLeaderboard = async (req, res) => {
+    try {
+        const { examID } = req.params;
+
+        // Ensure user is authenticated as a student
+        if (!req.user || !req.user.studentID) {
+            return res.status(403).json({ message: "Unauthorized. Only students can access this leaderboard." });
+        }
+
+        const student = await Student.findOne({ studentID: req.user.studentID });
+        if (!student) return res.status(404).json({ message: "Student not found" });
+
+        const exam = await Exam.findOne({ examID });
+        if (!exam) return res.status(404).json({ message: "Exam not found" });
+
+        // Get all marks for this exam sorted in descending order
+        const allLeaderboard = await Marks.find({ examID: exam._id })
+            .populate("studentID", "studentID name school")
+            .sort({ totalMarks: -1 });
+
+        // Extract top 20 students
+        const top20Leaderboard = allLeaderboard.slice(0, 20);
+
+        // Find logged-in student's rank (1-based index)
+        const studentRankIndex = allLeaderboard.findIndex(entry => entry.studentID.studentID === req.user.studentID);
+        const studentRank = studentRankIndex !== -1 ? studentRankIndex + 1 : null; // If not found, return null
+
+        // If student is **not in top 20**, add them to the leaderboard
+        let studentEntry = null;
+        if (studentRankIndex !== -1 && studentRankIndex >= 20) {
+            studentEntry = allLeaderboard[studentRankIndex];
+        }
+
+        res.json({
+            examID: exam.examID,
+            examName: exam.examName,
+            top20Leaderboard,
+            studentRank,
+            studentEntry, // Student’s own marks if they are not in top 20
+        });
+    } catch (error) {
+        console.error("Error fetching student leaderboard:", error);
+        res.status(500).json({ message: "Server Error", error });
+    }
+};
