@@ -244,7 +244,7 @@ const Dashboard = () => {
                   setMessage("");
                   setExamID("");
                   setExamName("");
-                  setExamDate(""); // ✅ Reset Exam Date
+                  setExamDate(""); 
                 }}
                 className="text-gray-500 hover:text-gray-700"
               >

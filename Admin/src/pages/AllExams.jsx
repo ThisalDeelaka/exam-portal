@@ -73,14 +73,14 @@ const AllExams = () => {
                             Paper II
                           </Link>
                           <Link 
-                            to={`/leaderboard/${exam.examID}`}
-                            className="bg-primary bg-opacity-10 text-primary text-center py-2 rounded-md font-medium text-sm transition-colors hover:bg-opacity-20 flex items-center justify-center"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                            View Leaderboard
-                          </Link>
+  to={`/leaderboard/${exam.examID}`}
+  className="bg-green-100 text-green-700 text-center py-2 rounded-md font-medium text-sm transition-colors hover:bg-green-200 flex items-center justify-center"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+  </svg>
+  View Leaderboard
+</Link>
                         </div>
                       </div>
                     ))
@@ -131,15 +131,15 @@ const AllExams = () => {
                             </Link>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-center">
-                            <Link
-                              to={`/leaderboard/${exam.examID}`}
-                              className="inline-flex items-center px-3 py-1.5 bg-primary bg-opacity-10 text-primary text-sm font-medium rounded hover:bg-opacity-20 transition-colors"
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                              </svg>
-                              View Leaderboard
-                            </Link>
+                          <Link
+  to={`/leaderboard/${exam.examID}`}
+  className="inline-flex items-center px-3 py-1.5 bg-green-100 text-green-700 text-sm font-medium rounded hover:bg-green-200 transition-colors"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+  </svg>
+  View Leaderboard
+</Link>
                           </td>
                         </tr>
                       ))

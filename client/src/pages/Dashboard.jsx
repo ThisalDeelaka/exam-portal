@@ -179,7 +179,7 @@ const Dashboard = () => {
 <footer className="bg-gray-800 text-white py-6 mt-10">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <p className="mb-2">© {new Date().getFullYear()} Combined Maths by Dhammika Karunarathna. All rights reserved.</p>
-    <p className="text-sm text-gray-400">Contact: info@dhammikamaths.com | +94 71 234 5678</p>
+    <p className="text-sm text-gray-400"> www.dkcombinedmaths.lk </p>
   </div>
 </footer>
        
