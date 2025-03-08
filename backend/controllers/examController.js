@@ -163,3 +163,32 @@ exports.addBulkMarks = async (req, res) => {
         res.status(500).json({ message: "Server Error", error });
     }
 };
+
+exports.getStudentAllMarks = async (req, res) => {
+    try {
+        if (!req.user || !req.user.studentID) {
+            return res.status(403).json({ message: "Unauthorized access" });
+        }
+
+        const student = await Student.findOne({ studentID: req.user.studentID });
+        if (!student) return res.status(404).json({ message: "Student not found" });
+
+        // Find all marks for this student
+        const marks = await Marks.find({ studentID: student._id }).populate("examID", "examName");
+
+        if (!marks.length) return res.status(404).json({ message: "No marks found" });
+
+        // Format response
+        const formattedMarks = marks.map((mark) => ({
+            examID: mark.examID._id,
+            examName: mark.examID.examName,
+            paper1Marks: mark.paper1Marks,
+            paper2Marks: mark.paper2Marks,
+            totalMarks: mark.totalMarks,
+        }));
+
+        res.json(formattedMarks);
+    } catch (error) {
+        res.status(500).json({ message: "Server Error", error });
+    }
+};

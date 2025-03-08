@@ -4,23 +4,32 @@ import axios from "axios";
 const CreateExam = () => {
   const [examID, setExamID] = useState("");
   const [examName, setExamName] = useState("");
+  const [examDate, setExamDate] = useState("");
   const [message, setMessage] = useState("");
 
   const handleCreateExam = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+
+      // Ensure date is selected
+      if (!examDate) {
+        setMessage("Please select an exam date.");
+        return;
+      }
+
       const res = await axios.post(
         "http://localhost:5000/api/exam/create",
-        { examID, examName },
+        { examID, examName, examDate },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setMessage(res.data.message);
       setExamID("");
       setExamName("");
+      setExamDate("");
     } catch (error) {
-      setMessage("Error creating exam");
+      setMessage(error.response?.data?.message || "Error creating exam");
     }
   };
 
@@ -41,6 +50,13 @@ const CreateExam = () => {
           placeholder="Exam Name"
           value={examName}
           onChange={(e) => setExamName(e.target.value)}
+          className="w-full p-2 border rounded mb-3"
+          required
+        />
+        <input
+          type="date"
+          value={examDate}
+          onChange={(e) => setExamDate(e.target.value)}
           className="w-full p-2 border rounded mb-3"
           required
         />

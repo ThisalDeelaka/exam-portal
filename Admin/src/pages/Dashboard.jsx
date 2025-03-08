@@ -17,6 +17,7 @@ const Dashboard = () => {
   
   // Exam form states
   const [examID, setExamID] = useState("");
+  const [examDate, setExamDate] = useState(""); // ✅ Added Exam Date
   const [examName, setExamName] = useState("");
   const [message, setMessage] = useState("");
   
@@ -34,25 +35,35 @@ const Dashboard = () => {
   const handleCreateExam = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post(
-        "http://localhost:5000/api/exam/create",
-        { examID, examName },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setMessage(res.data.message);
-      setExamID("");
-      setExamName("");
-      
-      // Close modal after success (optional)
-      // setTimeout(() => {
-      //   setIsExamModalOpen(false);
-      //   setMessage("");
-      // }, 2000);
+        const token = localStorage.getItem("token");
+
+        // Ensure date is selected
+        if (!examDate) {
+            setMessage("Please select an exam date.");
+            return;
+        }
+
+        const res = await axios.post(
+            "http://localhost:5000/api/exam/create",
+            { examID, examName, examDate }, // ✅ Send Exam Date
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setMessage(res.data.message);
+        setExamID("");
+        setExamName("");
+        setExamDate(""); // ✅ Reset Exam Date
+        
+        setTimeout(() => {
+            setIsExamModalOpen(false);
+            setMessage("");
+        }, 2000);
+        
     } catch (error) {
-      setMessage("Error creating exam");
+        setMessage("Error creating exam");
     }
-  };
+};
+
   
   if (loading) {
     return (
@@ -280,6 +291,7 @@ const Dashboard = () => {
                   setMessage("");
                   setExamID("");
                   setExamName("");
+                  setExamDate(""); // ✅ Reset Exam Date
                 }}
                 className="text-gray-500 hover:text-gray-700"
               >
@@ -289,57 +301,21 @@ const Dashboard = () => {
             
             <div className="p-4">
               <form onSubmit={handleCreateExam}>
-                <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="examID">
-                    Exam ID
-                  </label>
-                  <input
-                    type="text"
-                    id="examID"
-                    value={examID}
-                    onChange={(e) => setExamID(e.target.value)}
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                    required
-                  />
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="examName">
-                    Exam Name
-                  </label>
-                  <input
-                    type="text"
-                    id="examName"
-                    value={examName}
-                    onChange={(e) => setExamName(e.target.value)}
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                    required
-                  />
-                </div>
-                
-                {message && (
-                  <div className={`p-3 mb-4 rounded ${message.includes("Error") ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
-                    {message}
-                  </div>
-                )}
-                
+                <input type="text" placeholder="Exam ID" value={examID} onChange={(e) => setExamID(e.target.value)}
+                  className="w-full p-2 border rounded mb-3" required />
+                <input type="text" placeholder="Exam Name" value={examName} onChange={(e) => setExamName(e.target.value)}
+                  className="w-full p-2 border rounded mb-3" required />
+                <input type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)}
+                  className="w-full p-2 border rounded mb-3" required />
+
+                {message && <p className="mt-2 text-center text-secondary">{message}</p>}
+
                 <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsExamModalOpen(false);
-                      setMessage("");
-                      setExamID("");
-                      setExamName("");
-                    }}
-                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded mr-2 hover:bg-gray-300 transition duration-200"
-                  >
+                  <button type="button" onClick={() => setIsExamModalOpen(false)}
+                    className="bg-gray-200 text-gray-800 px-4 py-2 rounded mr-2 hover:bg-gray-300 transition duration-200">
                     Cancel
                   </button>
-                  <button
-                    type="submit"
-                    className="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90 transition duration-200"
-                  >
+                  <button type="submit" className="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90 transition duration-200">
                     Create Exam
                   </button>
                 </div>

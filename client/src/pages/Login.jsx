@@ -1,11 +1,10 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import { FaLock, FaUser, FaSignInAlt } from "react-icons/fa";
 
 const Login = () => {
-  const [name, setName] = useState("");
+  const [studentID, setStudentID] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,23 +16,15 @@ const Login = () => {
     setLoading(true);
     
     try {
-      // Make sure to send the right data format expected by your API
-      const res = await axios.post("http://localhost:5000/api/admin/login", {
-        name: name,
-        password
-      });
-
-      // Store token in localStorage
-      localStorage.setItem("token", res.data.token);
-      
-      // Update authentication state
-      login(name, res.data.token);
-      
-      // Navigate after successful login
-      navigate("/dashboard");
+      const success = await login(studentID, password);
+      if (success) {
+        navigate("/dashboard");
+      } else {
+        throw new Error("Invalid credentials");
+      }
     } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
-      setMessage(error.response?.data?.message || "Invalid credentials. Please try again.");
+      console.error("Login error:", error);
+      setMessage("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -47,7 +38,7 @@ const Login = () => {
             <div className="inline-flex justify-center items-center w-16 h-16 rounded-full bg-white bg-opacity-20 mb-4">
               <FaUser className="text-white text-2xl" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
+            <h1 className="text-2xl font-bold text-white">Student Portal</h1>
             <p className="text-white text-opacity-80 mt-1">Sign in to access your dashboard</p>
           </div>
           <div className="p-6">
@@ -61,17 +52,17 @@ const Login = () => {
             )}
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-2">Username</label>
+                <label className="block text-gray-700 text-sm font-medium mb-2">Student ID</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <FaUser className="text-gray-400" />
                   </div>
                   <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={studentID}
+                    onChange={(e) => setStudentID(e.target.value)}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary transition-all"
-                    placeholder="Enter your username"
+                    placeholder="Enter your student ID"
                     required
                   />
                 </div>
@@ -106,7 +97,7 @@ const Login = () => {
           <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 text-center">
             <p className="text-sm text-gray-600">
               Don't have an account? {" "}
-              <Link to="/register-admin" className="font-medium text-primary hover:text-opacity-80">
+              <Link to="/register" className="font-medium text-primary hover:text-opacity-80">
                 Register here
               </Link>
             </p>

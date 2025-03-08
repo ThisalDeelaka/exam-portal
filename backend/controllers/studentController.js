@@ -35,7 +35,16 @@ exports.loginStudent = async (req, res) => {
         // Generate JWT token
         const token = jwt.sign({ id: student._id, studentID: student.studentID }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-        res.json({ token, message: "Student logged in successfully" });
+        // Return token and student details
+        res.json({
+            token,
+            student: {
+                studentID: student.studentID,
+                name: student.name,
+                school: student.school
+            },
+            message: "Student logged in successfully"
+        });
     } catch (error) {
         res.status(500).json({ message: "Server Error", error });
     }
