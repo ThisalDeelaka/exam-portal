@@ -24,7 +24,7 @@ const RegisterAdmin = () => {
     
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/register", { name, password });
+      const res = await axios.post("https://exam-portal-mnwv.onrender.com/api/admin/register", { name, password });
       setMessage(res.data.message);
       setMessageType("success");
       setName("");

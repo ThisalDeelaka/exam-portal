@@ -17,7 +17,7 @@ const Register = () => {
     setLoading(true);
     
     try {
-      const res = await axios.post("http://localhost:5000/api/student/register", {
+      const res = await axios.post("https://exam-portal-mnwv.onrender.com/api/student/register", {
         studentID,
         name,
         school,

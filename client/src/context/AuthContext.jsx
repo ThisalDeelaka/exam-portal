@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (studentID, password) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/student/login", { studentID, password });
+      const res = await axios.post("https://exam-portal-mnwv.onrender.com/api/student/login", { studentID, password });
 
       if (res.data.student) {
         localStorage.setItem("token", res.data.token);

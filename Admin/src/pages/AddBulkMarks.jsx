@@ -48,7 +48,7 @@ const AddBulkMarks = () => {
         })),
       };
 
-      await axios.post("http://localhost:5000/api/exam/add-marks-bulk", data, {
+      await axios.post("https://exam-portal-mnwv.onrender.com/api/exam/add-marks-bulk", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

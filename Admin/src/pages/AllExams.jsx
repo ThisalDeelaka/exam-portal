@@ -12,7 +12,7 @@ const AllExams = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/exam/all", {
+        const res = await axios.get("https://exam-portal-mnwv.onrender.com/api/exam/all", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setExams(res.data);

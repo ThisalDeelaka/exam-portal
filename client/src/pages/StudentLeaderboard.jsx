@@ -30,7 +30,7 @@ const StudentLeaderboard = () => {
         return;
       }
   
-      const res = await axios.get(`http://localhost:5000/api/exam/${examID}/student-leaderboard`, {
+      const res = await axios.get(`https://exam-portal-mnwv.onrender.com/api/exam/${examID}/student-leaderboard`, {
         headers: { Authorization: `Bearer ${token}` },
       });
   

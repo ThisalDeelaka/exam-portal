@@ -13,7 +13,7 @@ const AddMarks = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/exam/add-marks",
+        "https://exam-portal-mnwv.onrender.com/api/exam/add-marks",
         { examID, studentID, paper1Marks: Number(paper1Marks), paper2Marks: Number(paper2Marks) },
         { headers: { Authorization: `Bearer ${token}` } }
       );

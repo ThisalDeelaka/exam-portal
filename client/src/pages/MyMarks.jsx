@@ -34,7 +34,7 @@ const MyMarks = () => {
         return;
       }
       
-      const res = await axios.get(`http://localhost:5000/api/exam/student/my-marks`, {
+      const res = await axios.get(`https://exam-portal-mnwv.onrender.com/api/exam/student/my-marks`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       

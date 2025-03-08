@@ -44,7 +44,7 @@ const Dashboard = () => {
         }
 
         const res = await axios.post(
-            "http://localhost:5000/api/exam/create",
+            "https://exam-portal-mnwv.onrender.com/api/exam/create",
             { examID, examName, examDate }, // ✅ Send Exam Date
             { headers: { Authorization: `Bearer ${token}` } }
         );

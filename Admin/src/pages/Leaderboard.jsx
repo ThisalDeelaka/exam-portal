@@ -35,7 +35,7 @@ const Leaderboard = () => {
   const fetchExamInfo = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`http://localhost:5000/api/exam/${examID}`, {
+      const res = await axios.get(`https://exam-portal-mnwv.onrender.com/api/exam/${examID}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setExamInfo({
@@ -52,7 +52,7 @@ const Leaderboard = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await axios.get(`http://localhost:5000/api/exam/${examID}/leaderboard`, {
+      const res = await axios.get(`https://exam-portal-mnwv.onrender.com/api/exam/${examID}/leaderboard`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeaderboard(res.data);
@@ -171,7 +171,7 @@ const Leaderboard = () => {
           <div className="mb-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-indigo-800">{examInfo.title} Results</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold text-indigo-800">{examInfo.title} LeaderBoard</h1>
                 <div className="mt-2 flex items-center text-gray-600">
                   <FileText className="h-4 w-4 mr-2" />
                   <span className="text-sm sm:text-base">Academic Excellence Ranking</span>
