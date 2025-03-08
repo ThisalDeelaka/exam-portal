@@ -1,32 +1,37 @@
-// src/context/AuthContext.js
-import React, { createContext, useState, useContext } from 'react';
-import axios from 'axios';
+import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('token') || null);
-  const [user, setUser] = useState(null);
+  const [admin, setAdmin] = useState(null);
 
-  const login = async (studentId, password) => {
-    const response = await axios.post('/api/auth/login', { studentId, password });
-    setAuthToken(response.data.token);
-    setUser({ id: response.data.id, role: response.data.role });
-    localStorage.setItem('token', response.data.token);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setAdmin({ token });
+    }
+  }, []);
+
+  const login = async (name, password) => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/admin/login", { name, password });
+      localStorage.setItem("token", res.data.token);
+      setAdmin({ token: res.data.token });
+      return true;
+    } catch (error) {
+      console.error("Login failed", error);
+      return false;
+    }
   };
 
   const logout = () => {
-    setAuthToken(null);
-    setUser(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
+    setAdmin(null);
   };
 
   return (
-    <AuthContext.Provider value={{ authToken, user, login, logout }}>
+    <AuthContext.Provider value={{ admin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

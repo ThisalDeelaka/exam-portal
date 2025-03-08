@@ -1,68 +1,78 @@
-import { useState } from "react";
-import { addMarks } from "../services/marksService";
-import { toast } from "react-toastify";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 const Marks = () => {
-  const [studentId, setStudentId] = useState("");
-  const [examId, setExamId] = useState("");
-  const [paper1, setPaper1] = useState("");
-  const [paper2, setPaper2] = useState("");
+  const { token, user } = useContext(AuthContext);
+  const { examId } = useParams();
+  const [marks, setMarks] = useState(null);
+  const [paper1, setPaper1] = useState(0);
+  const [paper2, setPaper2] = useState(0);
 
-  const handleAddMarks = async (e) => {
-    e.preventDefault();
-    try {
-      await addMarks(studentId, examId, parseInt(paper1), parseInt(paper2));
-      toast.success("Marks added successfully!");
-      setStudentId("");
-      setExamId("");
-      setPaper1("");
-      setPaper2("");
-    } catch (error) {
-      toast.error("Failed to add marks");
+  useEffect(() => {
+    fetchMarks();
+  }, []);
+
+  const fetchMarks = async () => {
+    const res = await fetch(`/api/marks/${user.studentId}/${examId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setMarks(data);
+  };
+
+  const submitMarks = async () => {
+    const res = await fetch("/api/marks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ studentId: marks.studentId, examId, paper1, paper2 }),
+    });
+
+    if (res.ok) {
+      fetchMarks();
+    } else {
+      alert("Failed to submit marks");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h2 className="text-2xl font-bold text-secondary">Manage Marks</h2>
+    <div className="container mx-auto p-6">
+      <h1 className="text-secondary text-3xl font-bold">Marks</h1>
+      {marks ? (
+        <div>
+          <p>Paper I: {marks.paper1}</p>
+          <p>Paper II: {marks.paper2}</p>
+          <p>Total: {marks.total}</p>
+        </div>
+      ) : (
+        <p>No marks found</p>
+      )}
 
-      <form onSubmit={handleAddMarks} className="bg-white p-4 rounded-lg shadow mt-4">
-        <input
-          type="text"
-          placeholder="Student ID"
-          className="w-full p-2 border rounded mt-2"
-          value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Exam ID"
-          className="w-full p-2 border rounded mt-2"
-          value={examId}
-          onChange={(e) => setExamId(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Paper I Marks"
-          className="w-full p-2 border rounded mt-2"
-          value={paper1}
-          onChange={(e) => setPaper1(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Paper II Marks"
-          className="w-full p-2 border rounded mt-2"
-          value={paper2}
-          onChange={(e) => setPaper2(e.target.value)}
-          required
-        />
-        <button className="w-full bg-primary text-white p-2 rounded mt-4" type="submit">
-          Add Marks
-        </button>
-      </form>
+      {user?.role === "admin" && (
+        <div className="mt-6">
+          <h2 className="text-primary text-2xl">Enter Marks</h2>
+          <input
+            type="number"
+            placeholder="Paper I"
+            value={paper1}
+            onChange={(e) => setPaper1(Number(e.target.value))}
+            className="border p-2 w-full mb-4"
+          />
+          <input
+            type="number"
+            placeholder="Paper II"
+            value={paper2}
+            onChange={(e) => setPaper2(Number(e.target.value))}
+            className="border p-2 w-full mb-4"
+          />
+          <button className="bg-primary text-white p-2 w-full rounded-lg" onClick={submitMarks}>
+            Submit Marks
+          </button>
+        </div>
+      )}
     </div>
   );
 };
