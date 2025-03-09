@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import MyMarks from "./pages/MyMarks";
 import StudentLeaderboard from "./pages/StudentLeaderboard"; 
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-marks" element={<MyMarks />} />
           <Route path="/leaderboard/:examID" element={<StudentLeaderboard />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
         </Routes>
       </Router>
     </AuthProvider>

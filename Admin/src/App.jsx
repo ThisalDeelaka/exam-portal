@@ -8,6 +8,7 @@ import AddMarks from "./pages/AddMarks";
 import Leaderboard from "./pages/Leaderboard";
 import AllExams from "./pages/AllExams";
 import AddBulkMarks from "./pages/AddBulkMarks";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/leaderboard/:examID" element={<Leaderboard />} />
           <Route path="/all-exams" element={<AllExams />} />
           <Route path="/add-marks/:examID/:paper" element={<AddBulkMarks />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -67,7 +67,7 @@ const Login = () => {
                   />
                 </div>
               </div>
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-medium mb-2">Password</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -83,15 +83,22 @@ const Login = () => {
                   />
                 </div>
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-primary hover:bg-opacity-90 transition-all ${
-                  loading ? "opacity-70 cursor-not-allowed" : ""
-                }`}
-              >
-                {loading ? "Signing in..." : <><FaSignInAlt className="mr-2" /> Sign In</>}
-              </button>
+              <div className="flex justify-between items-center mb-6">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-primary hover:bg-opacity-90 transition-all ${
+                    loading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {loading ? "Signing in..." : <><FaSignInAlt className="mr-2" /> Sign In</>}
+                </button>
+              </div>
+              <div className="text-center">
+                <Link to="/forgotpassword" className="text-sm text-primary hover:text-opacity-80">
+                  Forgot Password?
+                </Link>
+              </div>
             </form>
           </div>
           <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 text-center">
